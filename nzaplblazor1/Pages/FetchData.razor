@@ -1,0 +1,45 @@
+@page "/fetchdata"
+@inject HttpClient Http
+@using CommonData
+
+<h1>Weather todoitem</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (todoitems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todoitem in todoitems)
+            {
+                <tr>
+                    <td>@todoitem.Id</td>
+                    <td>@todoitem.Name</td>
+                    <td>@todoitem.Description</td>
+                    <td>@todoitem.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private TodoItem[] todoitems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        todoitems = await Http.GetFromJsonAsync<TodoItem[]>("/api/Function1");
+    }
+}
